@@ -21,4 +21,9 @@ m.route(document.body, "/users", {
       return m(Layout, m(UserForm, vnode.attrs))
     }
   },
+  "/users/add": {
+    render: function(vnode) {
+      return m(Layout, m(UserForm))
+    }
+  },
 })

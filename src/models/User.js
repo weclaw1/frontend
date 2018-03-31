@@ -25,7 +25,39 @@ var User = {
         .then(function(user) {
             User.current = user
         })
-    }
+    },
+
+    post: function() {
+        return m.request({
+            method: "POST",
+            url: `${api_url}/users`,
+            data: User.current,
+        })
+        .then(function(response) {
+            User.getList()
+        })
+    },
+
+    put: function() {
+        return m.request({
+            method: "PUT",
+            url: `${api_url}/users/:id`,
+            data: User.current,
+        })
+        .then(function(response) {
+            User.getList()
+        })
+    },
+
+    delete: function(id) {
+        return m.request({
+            method: "DELETE",
+            url: `${api_url}/users/${id}`,
+        })
+        .then(function(response) {
+            User.getList()
+        })
+    },
 }
 
 module.exports = User

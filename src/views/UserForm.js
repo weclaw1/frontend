@@ -2,20 +2,34 @@ var m = require("mithril");
 var User = require("../models/User");
 
 module.exports = {
-    oninit: function(vnode) {User.get(vnode.attrs.id)},
+    oninit: function(vnode) { vnode.attrs.id ? User.get(vnode.attrs.id) : User.current = {} },
     view: function() {
-        return m("form", [
+        return m("form", {
+                onsubmit: function(e) {
+                    e.preventDefault();
+                    User.current.id ? User.put() : User.post();
+                    m.route.set("/users");
+                }
+            }, [
             m("div.form-group", [
                 m("label[for=inputUsername]", "Username"),
-                m("input.form-control#inputUsername[type=text][placeholder=Username]", {value: User.current.username})
+                m("input.form-control#inputUsername[type=text][placeholder=Username]", {
+                    oninput: m.withAttr("value", function(value) {User.current.username = value}),
+                    value: User.current.username
+                })
             ]),
             m("div.form-group", [
                 m("label[for=inputPassword]", "Password"),
-                m("input.form-control#inputPassword[type=password][placeholder=Password]")
+                m("input.form-control#inputPassword[type=password][placeholder=Password]", {
+                    oninput: m.withAttr("value", function(value) {User.current.password = value})
+                })
             ]),
             m("div.form-group", [
                 m("label[for=inputEmail]", "Email"),
-                m("input.form-control#inputEmail[type=email][placeholder=Email]", {value: User.current.email})
+                m("input.form-control#inputEmail[type=email][placeholder=Email]", {
+                    oninput: m.withAttr("value", function(value) {User.current.email = value}),
+                    value: User.current.email
+                })
             ]),
             m("button.btn.btn-primary[type=submit]", "Save"),
         ])
