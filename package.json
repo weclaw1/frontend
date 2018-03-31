@@ -6,6 +6,7 @@
   "devDependencies": {
     "css-loader": "^0.28.9",
     "style-loader": "^0.20.1",
+    "url-loader": "^1.0.1",
     "webpack": "^3.10.0"
   },
   "scripts": {
@@ -15,6 +16,7 @@
     "bootstrap": "4.0.0",
     "jquery": "^3.3.1",
     "mithril": "^1.1.6",
+    "open-iconic": "^1.1.1",
     "popper.js": "^1.12.9"
   }
 }
