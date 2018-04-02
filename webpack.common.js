@@ -4,13 +4,10 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: './src/index.js',
-    devServer: {
-        contentBase: './dist'
-    },
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
-            title: 'Development'
+            title: 'My Application'
         })
     ],
     output: {
