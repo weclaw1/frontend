@@ -1,5 +1,6 @@
 var m = require("mithril");
 var User = require("../models/User");
+var Auth = require("../models/Auth")
 
 module.exports = {
     oninit: function(vnode) { vnode.attrs.id ? User.get(vnode.attrs.id) : User.current = {} },
@@ -7,8 +8,8 @@ module.exports = {
         return m("form", {
                 onsubmit: function(e) {
                     e.preventDefault();
+                    m.route.get() === "/register" ? Auth.register(User.current) : 
                     User.current.id ? User.put() : User.post();
-                    m.route.set("/users");
                 }
             }, [
             m("div.form-group", [
@@ -31,7 +32,7 @@ module.exports = {
                     value: User.current.email
                 })
             ]),
-            m("button.btn.btn-primary[type=submit]", "Save"),
+            m("button.btn.btn-primary[type=submit]", m.route.get() === "/register" ? "Register" : "Save"),
         ])
     }
 }

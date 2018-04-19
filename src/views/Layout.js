@@ -1,4 +1,5 @@
 var m = require("mithril");
+var classNames = require('classnames');
 
 module.exports = {
     view: function(vnode) {
@@ -10,14 +11,22 @@ module.exports = {
                 ),
                 m("div.collapse.navbar-collapse#navbarCollapse", [
                     m("ul.navbar-nav.mr-auto", [
-                        m("li.nav-item", {class: m.route.get() === '/' ? "active" : ""}, [
-                            m("a.nav-link[href='/']", {oncreate: m.route.link}, "Home")
-                        ]),
                         m("li.nav-item", {class: m.route.get() === '/users' ? "active" : ""}, [
                             m("a.nav-link[href='/users']", {oncreate: m.route.link}, "Users")
                         ]),
                         m("li.nav-item", {class: m.route.get() === '/characters' ? "active" : ""}, [
-                            m("a.nav-link[href='/characters']", {oncreate: m.route.link}, "Characters")
+                            m("a.nav-link[href='/characters']", {class: localStorage.getItem("token") ? "" : "disabled", oncreate: m.route.link}, "Characters")
+                        ])
+                    ]),
+                    m("ul.navbar-nav.ml-auto", [
+                        m("li.nav-item", {class: classNames({
+                            'active': m.route.get() === '/register', 
+                            'd-none': localStorage.getItem("token")
+                        })}, [
+                            m("a.nav-link[href='/register']", {oncreate: m.route.link}, "Register")
+                        ]),
+                        m("li.nav-item", {class: m.route.get() === '/login' ? "active" : ""}, [
+                            m("a.nav-link", {href: localStorage.getItem("token") ? "/logout" : "/login", oncreate: m.route.link}, localStorage.getItem("token") ? "Logout" : "Login")
                         ])
                     ])
                 ])

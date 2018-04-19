@@ -1,5 +1,6 @@
 var m = require("mithril");
 var User = require("../models/User");
+var Auth = require("../models/Auth");
 
 module.exports = {
     oninit: User.getList,
@@ -22,13 +23,13 @@ module.exports = {
                         m("td", user.password),
                         m("td", user.email),
                         m("td", [
-                            m("a.btn.btn-primary", {href: "/users/edit/" + user.id, oncreate: m.route.link}, m("span.oi.oi-pencil[title=Edit][aria-hidden=true]")),
-                            m("button.btn.btn-danger", {onclick: m.withAttr("value", User.delete), value: user.id}, m("span.oi.oi-delete[title=Delete][aria-hidden=true]")),
+                            m("a.btn.btn-primary", {class: Auth.getTokenField("admin") ? "" : "disabled", href: "/users/edit/" + user.id, oncreate: m.route.link}, m("span.oi.oi-pencil[title=Edit][aria-hidden=true]")),
+                            m("button.btn.btn-danger", {disabled: Auth.getTokenField("admin") ? false : true, onclick: m.withAttr("value", User.delete), value: user.id}, m("span.oi.oi-delete[title=Delete][aria-hidden=true]")),
                         ]),
                     ])
                 })),
             ]),
-            m("a.btn.btn-success[href='/users/add']", {oncreate: m.route.link}, m("span.oi.oi-plus[title=Add][aria-hidden=true]"))
+            m("a.btn.btn-success[href='/users/add']", {class: Auth.getTokenField("admin") ? "" : "disabled", oncreate: m.route.link}, m("span.oi.oi-plus[title=Add][aria-hidden=true]"))
         ])
     }
 }
