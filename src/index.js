@@ -21,41 +21,81 @@ m.route(document.body, "/users", {
     }
   },
   "/users/edit/:id": {
+    onmatch: function() {
+      if(!Auth.getTokenField("admin")) {
+        m.route.set("/users")
+      }
+    },
     render: function(vnode) {
       return m(Layout, m(UserForm, vnode.attrs))
     }
   },
   "/users/add": {
+    onmatch: function() {
+      if(!Auth.getTokenField("admin")) {
+        m.route.set("/users")
+      }
+    },
     render: function(vnode) {
       return m(Layout, m(UserForm))
     }
   },
   "/characters": {
+    onmatch: function() {
+      if(!localStorage.getItem("token")) {
+        m.route.set("/users")
+      }
+    },
     render: function() {
       return m(Layout, m(GameCharacterList))
     }
   },
   "/characters/edit/:id": {
+    onmatch: function() {
+      if(!Auth.getTokenField("admin")) {
+        m.route.set("/characters")
+      }
+    },
     render: function(vnode) {
       return m(Layout, m(GameCharacterForm, vnode.attrs))
     }
   },
   "/characters/add": {
+    onmatch: function() {
+      if(!localStorage.getItem("token")) {
+        m.route.set("/users")
+      }
+    },
     render: function(vnode) {
       return m(Layout, m(GameCharacterForm))
     }
   },
   "/register": {
+    onmatch: function() {
+      if(localStorage.getItem("token")) {
+        m.route.set("/logout")
+      }
+    },
     render: function(vnode) {
       return m(Layout, m(UserForm))
     }
   },
   "/login": {
+    onmatch: function() {
+      if(localStorage.getItem("token")) {
+        m.route.set("/logout")
+      }
+    },
     render: function(vnode) {
       return m(Layout, m(LoginForm))
     }
   },
   "/logout": {
+    onmatch: function() {
+      if(!localStorage.getItem("token")) {
+        m.route.set("/login")
+      }
+    },
     onmatch: function() {
       Auth.logout();
     },
